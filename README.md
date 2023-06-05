@@ -1,0 +1,25 @@
+# Antimicrobial Utilization and Resistance Analysis in a Hospital Network
+
+This repository contains code and data related to the research article titled "Unveiling the dynamics of antimicrobial utilization and resistance in a large hospital network over five years: Insights from health record data analysis." The study explores the impact of the COVID-19 pandemic on antimicrobial resistance (AMR) using population-level data from clinical, laboratory, and prescription records.
+
+## Abstract
+Antimicrobial Resistance (AMR) poses a significant global public health challenge, which has been further compounded by the COVID-19 pandemic. However, there is a lack of comprehensive population-level data integrating clinical, laboratory, and prescription data to understand the impact of the pandemic on AMR evolution. In this study, we present an analysis of data extracted from a centralized electronic platform that captures health records of 60,551 patients across a network of public healthcare facilities in Dubai, United Arab Emirates. Our analysis employs various analytical methods, including time-series analysis, natural language processing (NLP), and unsupervised clustering algorithms, to investigate trends in antimicrobial usage and resistance over time, assess the impact of prescription practices on resistance rates, and explore the effects of COVID-19 on antimicrobial usage and resistance.
+
+## Methodology
+Data was extracted from the centralized electronic platform, encompassing inpatient and outpatient records of patients diagnosed with bacterial infections between 01/01/2017 and 31/05/2022. The dataset includes structured and unstructured Electronic Health Record data, microbiological laboratory data (antibiogram, molecular typing, and COVID-19 testing information), as well as antibiotic prescribing data. We utilized various analytical techniques, such as time-series analysis, NLP, and unsupervised clustering algorithms, to analyze the data and derive insights into antimicrobial utilization and resistance patterns.
+
+## Results
+Our analysis revealed a significant impact of the COVID-19 pandemic on antimicrobial prescription practices, with evidence of short-term and long-lasting over-prescription of these drugs. Furthermore, resistance to antimicrobials increased the odds ratio of mortality to an average of 2.5, and the effects of prescription practices on resistance were observed within one week of initiation. We also identified significant trends in antimicrobial resistance, with fluctuations observed for various drugs and organisms. Overall, there was an increasing trend in resistance levels, particularly in the post-COVID-19 period.
+
+Please refer to the research article for detailed findings and discussion.
+
+## License
+This project is licensed under the [MIT License](LICENSE).
+
+## Citation
+If you use the code or findings from this study, please cite the following research article:
+```
+[Insert citation details here]
+```
+
+For any questions or inquiries, please contact the authors.
