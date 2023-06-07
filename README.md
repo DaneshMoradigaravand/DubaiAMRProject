@@ -13,8 +13,21 @@ Our analysis revealed a significant impact of the COVID-19 pandemic on antimicro
 
 Please refer to the research article for detailed findings and discussion.
 
-## License
-This project is licensed under the [MIT License](LICENSE).
+## File Content
+
+The repository contains the following files:
+
+| File Name                                           | Description                           |
+| --------------------------------------------------- | ------------------------------------- |
+| Correlation_Resistance_Prescription_CCF_Inpatient.csv | Correlation between resistance and prescription for inpatient data |
+| Correlation_Resistance_Prescription_CCF_Outpatient.csv | Correlation between resistance and prescription for outpatient data |
+| Count_Antimicrobial_Prescription_Inpatient.csv       | Count of antimicrobial prescriptions in inpatient data |
+| Count_Antimicrobial_Prescription_Outpatient.csv      | Count of antimicrobial prescriptions in outpatient data |
+| DeathOddsRatio.csv                                  | Odds ratio of death data from resistance |
+| Drugs_Abbreviation_Class.csv                        | Abbreviation and classification of drugs |
+| inpatient_prescription_resistance_odds_ratio.csv     | Odds ratio of prescription resistance in inpatient data |
+| outpatient_prescription_resistance_odds_ratio.csv    | Odds ratio of prescription resistance in outpatient data |
+
 
 ## Citation
 If you use the code or findings from this study, please cite the following research article:
