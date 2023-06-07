@@ -25,8 +25,8 @@ The repository contains the following files:
 | Count_Antimicrobial_Prescription_Outpatient.csv      | Count of antimicrobial prescriptions in outpatient data |
 | DeathOddsRatio.csv                                  | Odds ratio of death data from resistance |
 | Drugs_Abbreviation_Class.csv                        | Abbreviation and classification of drugs |
-| inpatient_prescription_resistance_odds_ratio.csv     | Odds ratio of prescription resistance in inpatient data |
-| outpatient_prescription_resistance_odds_ratio.csv    | Odds ratio of prescription resistance in outpatient data |
+| inpatient_prescription_resistance_odds_ratio.csv     | Odds ratio of prescription on resistance in inpatient data |
+| outpatient_prescription_resistance_odds_ratio.csv    | Odds ratio of prescription on resistance in outpatient data |
 
 
 ## Citation
