@@ -9,13 +9,14 @@ Antimicrobial Resistance (AMR) poses a significant global public health challeng
 Data was extracted from the centralized electronic platform, encompassing inpatient and outpatient records of patients diagnosed with bacterial infections between 01/01/2017 and 31/05/2022. The dataset includes structured and unstructured Electronic Health Record data, microbiological laboratory data (antibiogram, molecular typing, and COVID-19 testing information), as well as antibiotic prescribing data. We utilized various analytical techniques, such as time-series analysis, NLP, and unsupervised clustering algorithms, to analyze the data and derive insights into antimicrobial utilization and resistance patterns.
 
 ## Results
-Our analysis revealed a significant impact of the COVID-19 pandemic on antimicrobial prescription practices, with evidence of short-term and long-lasting over-prescription of these drugs. Furthermore, resistance to antimicrobials increased the odds ratio of mortality to an average of 2.5, and the effects of prescription practices on resistance were observed within one week of initiation. We also identified significant trends in antimicrobial resistance, with fluctuations observed for various drugs and organisms. Overall, there was an increasing trend in resistance levels, particularly in the post-COVID-19 period.
+Our findings identified a significant impact of COVID-19 on antimicrobial prescription practices, with short-term and long-lasting over-prescription of these drugs. Resistance to antimicrobials increased the odds ratio of all mortality to an average of 2.18 (95% CI: 1.87-2.49) for the most commonly prescribed antimicrobials. Moreover, the effects of antimicrobial prescription practices on resistance were observed within one week of initiation. Significant trends in antimicrobial resistance, exhibiting fluctuations for various drugs and organisms, with an overall increasing trend in resistance levels, particularly post-COVID-19 were identified.
+
 
 Please refer to the research article for detailed findings and discussion.
 
 ## File Content
 
-The repository contains the following files:
+The Code file contains R codes for predocing the figures for causal impact analysis and natural language processing. The repository contains the following files:
 
 | File Name                                           | Description                           |
 | --------------------------------------------------- | ------------------------------------- |
@@ -27,6 +28,18 @@ The repository contains the following files:
 | Drugs_Abbreviation_Class.csv                        | Abbreviation and classification of drugs |
 | inpatient_prescription_resistance_odds_ratio.csv     | Odds ratio of prescription on resistance in inpatient data |
 | outpatient_prescription_resistance_odds_ratio.csv    | Odds ratio of prescription on resistance in outpatient data |
+| IP_season_frequency.csv                         | Seasonal fluctuation in inpatients prescriptions |
+| OP_season_frequency.csv                         | Seasonal fluctuation in outpatients prescriptions |
+| LogisticRegression_DeathOddsRatio_Strains.csv   | Logistic regression results for the impact of resistance on death |
+| SurvivalAnalysis_DeathOddsRatio_Strains.csv     | Survival analysis results                      |
+| UpdatedOrganisms.csv                            | List of organisms and standardized names       |
+| drugs.csv                                       | List of drugs and frequency                    |
+| inpatient_prescription_resistance_odds_ratio.csv | Odds ratio for the effect of prescription on resistance for inpatients |
+| outpatient_prescription_resistance_odds_ratio.csv | Odds ratio for the effect of prescription on resistance for outpatients |
+| text_antibiotic_IP.csv                          | The extracted text for the inpatient prescriptions |
+| text_antibiotic_OP.csv                          | The extracted text for the outpatient prescriptions |
+| trend_total_comp_tot_IP.csv                     | The trend of inpatient prescriptions            |
+| trend_total_comp_tot_OP.csv                     | The trend of outpatient prescriptions           |
 
 
 ## Citation
