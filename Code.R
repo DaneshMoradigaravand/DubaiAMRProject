@@ -6,7 +6,7 @@ library(tm)
 library(wordcloud)
 
 # Define the GitHub URL of the CSV file
-github_url <- "https://raw.githubusercontent.com/DaneshMoradigaravand/DubaiAMRProject/main/File/text_antibiotic.csv"
+github_url <- "https://raw.githubusercontent.com/DaneshMoradigaravand/DubaiAMRProject/main/File/text_antibiotic_IP.csv" # (use _OP postfix for outpatients)
 
 # Read the CSV file from the GitHub URL
 text_antibiotic <- read_csv(github_url)
