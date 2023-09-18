@@ -280,7 +280,7 @@ library(tidycmprsk)
 # Partial header for GeneralData, AMR data (MicroCultureData) and the Terms files may be found in the File folder
 github_url <- "https://raw.githubusercontent.com/DaneshMoradigaravand/DubaiAMRProject/main/File/"
 gen_info_file <- file.path(data_dir, "GeneralData.csv")
-terms_file <- file.path(data_dir, "Terms_total_genes.csv")
+terms_file <- file.path(data_dir, "Terms_total.csv")
 organism_files <- list.files(path = github_url, pattern = "MicroCultureData_\\d{4}\\.xlsx", full.names = TRUE)
 organisms_name_file <- file.path(data_dir, "Organisms.csv")
 
