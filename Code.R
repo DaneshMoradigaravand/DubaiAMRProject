@@ -4,6 +4,18 @@
 library(tidyverse)
 library(tm)
 library(wordcloud)
+library(dplyr)
+library(tidytext)
+
+# Cleanig and processig text
+process_text<-function(text){
+  text<-gsub("https\\S*", "", text) 
+  text<-gsub("@\\S*", "", text) 
+  text<-gsub("[\r\n]", "", text)
+  text<-gsub("[[:punct:]]", "", text)
+  return(text)
+}
+
 
 # Define the GitHub URL of the CSV file
 github_url <- "https://raw.githubusercontent.com/DaneshMoradigaravand/DubaiAMRProject/main/File/text_antibiotic_IP.csv" # (use _OP postfix for outpatients)
