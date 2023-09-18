@@ -266,4 +266,121 @@ ggplot(data = output_df_processed_estimate, aes(x = Organism, y = Estimate, fill
   geom_vline(xintercept = seq(0.5, length(unique(output_df_processed$Organism)) - 0.5), color = "black", size = 0.5)
 
 
+#####Survival and logistic regression analysis (Figure 6)####
 
+# Load required libraries
+library(epitools)
+library(tidyverse)
+library(readxl)
+library(survey)
+library(survival)
+library(car)
+library(tidycmprsk)
+
+# Partial header for GeneralData, AMR data (MicroCultureData) and the Terms files may be found in the File folder
+github_url <- "https://raw.githubusercontent.com/DaneshMoradigaravand/DubaiAMRProject/main/File/"
+gen_info_file <- file.path(data_dir, "GeneralData.csv")
+terms_file <- file.path(data_dir, "Terms_total_genes.csv")
+organism_files <- list.files(path = github_url, pattern = "MicroCultureData_\\d{4}\\.xlsx", full.names = TRUE)
+organisms_name_file <- file.path(data_dir, "Organisms.csv")
+
+# Load data
+gen_info <- read_csv( paste0(github_url,gen_info_file), col_names = c("PATIENT_ID", "DEATH_INDICATOR", "PROBLEM_LIST",
+                                                  "ADMISSION_DIAGNOSIS", "CLINICAL_DX", "BMI",
+                                                  "BMI_DATE", "ADMISSION_DATE", "DISCHARGE_DATE",
+                                                  "TREATMENT_OUTCOME"))
+gen_info$PATIENT_ID <- as.character(gen_info$PATIENT_ID)
+
+terms <- read_csv(paste0(github_url,terms_file))
+
+# Function to read and preprocess AMR data
+read_and_preprocess_amr_data <- function(file_path) {
+  amr_data <- read_xlsx(file_path) %>%
+    select(PATIENT_ID, SPECIMEN_DATE_FINAL, Drug, ORGANISM_NAME, AST_Result_CAT, 
+           PATIENT_GENDER, PATIENT_NATIONALITY, PATIENT_AGE)
+  amr_data$ORGANISM_NAME <- organisms_name$UpdatedOrganismName[match(amr_data$ORGANISM_NAME, organisms_name$Oragnism)]
+  amr_data$ORGANISM_NAME <- gsub("[[:punct:]]", "", amr_data$ORGANISM_NAME)
+  amr_data <- amr_data[amr_data$ORGANISM_NAME != "NOI", ]
+  return(amr_data)
+}
+
+# Read and preprocess AMR data for multiple years
+amr_data_list <- lapply(organism_files, read_and_preprocess_amr_data)
+amr_tot <- do.call(rbind, amr_data_list)
+
+# Analysis for top organisms
+org_df <- names(rev(tail(sort(table(amr_tot$ORGANISM_NAME)), 10)))
+barplot_df <- c()
+barplot_df_lg <- c()
+barplot_df_survival <- c()
+
+for (j in 1:length(org_df)) {
+  amr_tot_filetered_organism <- amr_tot %>%
+    filter(grepl(paste0("^", org_df[j]), ORGANISM_NAME))
+  
+  names_ab <- names(tail(sort(table(amr_tot_filetered_organism$Drug)), 10))
+  print(j)
+  
+  for (k in 1:length(names_ab)) {
+    print(k)
+    amr_tot_filetered <- amr_tot %>%
+      filter(grepl(paste0("^", org_df[j]), ORGANISM_NAME) & grepl(names_ab[k], Drug)) %>%
+      mutate(PHENOTYPE = ifelse(grepl("R", AST_Result_CAT), "R", "S"), 
+             WEEK = year_week(SPECIMEN_DATE_FINAL, "2017-01-01")) %>%
+      arrange(WEEK)
+    
+    amr_tot_filetered$COMBINED <- paste0(amr_tot_filetered$PATIENT_ID, "_", amr_tot_filetered$WEEK)
+    
+    gen_info$PATIENT_ID <- as.character(gen_info$PATIENT_ID)
+    amr_tot_filetered <- inner_join(amr_tot_filetered, gen_info, by = c("PATIENT_ID" = "PATIENT_ID"))
+    
+    if (length(unique(amr_tot_filetered$PHENOTYPE)) > 1) {
+      table_freq <- table(amr_tot_filetered$PHENOTYPE, amr_tot_filetered$DEATH_INDICATOR)[c(2, 1),]
+      if (length(which(table_freq == 0)) == 0) {
+        # Perform logistic regression
+        predictor_columns <- colnames(amr_tot_filetered)[-1]
+        predictor_columns_short <- predictor_columns[c(8, 5, 6, 7, 15, 20, 21, 22:length(predictor_columns))]
+        
+        formula_str <- paste("DEATH_INDICATOR ~", paste(predictor_columns_short, collapse = " + "))
+        model_formula <- as.formula(formula_str)
+        
+        model <- glm(model_formula, family = binomial(link = 'logit'), data = amr_tot_filetered)
+        
+        # Print summary and other statistics
+        print(summary(model)$coefficients[c(1, 2, 3),])
+        
+        # Perform survival analysis
+        formula_str <- paste("Surv(PATIENT_AGE, DEATH_INDICATOR) ~", 
+                             paste(predictor_columns_short[-4], collapse = " + "))
+        model_formula <- as.formula(formula_str)
+        
+        tb <- ""
+        tryCatch(
+          {
+            tb <- crr(model_formula, data = amr_tot_filetered)
+            print(tb$tidy)
+            barplot_df_survival <- rbind(barplot_df_survival, c(tb$tidy$estimate[1], 
+                                                                tb$tidy$estimate[1] - tb$tidy$std.error[1], 
+                                                                tb$tidy$estimate[1] + tb$tidy$std.error[1], 
+                                                                names_ab[k], org_df[j]))
+          },
+          error = function(e) {
+            # Handle any potential errors during survival analysis
+            print("Error in survival analysis")
+          }
+        )
+      }
+    }
+  }
+}
+
+# The rest of your code for analysis goes here, if there are any additional steps or calculations you need to perform.
+
+# Finally, save the results to a CSV file
+barplot_df_survival <- data.frame(barplot_df_survival)
+barplot_df_survival$Estimate <- as.numeric(as.character(barplot_df_survival$Estimate))
+barplot_df_survival$upper <- as.numeric(as.character(barplot_df_survival$upper))
+barplot_df_survival$lower <- as.numeric(as.character(barplot_df_survival$lower))
+colnames(barplot_df_survival) <- c("Estimate", "upper", "lower", "Antimicrobial", "Organism")
+result_file <- file.path(data_dir, "SurvivalAnalysis_DeathOddsRatio_Strains_21Aug2023.csv")
+write_csv(barplot_df_survival, result_file)
