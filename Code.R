@@ -384,3 +384,65 @@ barplot_df_survival$lower <- as.numeric(as.character(barplot_df_survival$lower))
 colnames(barplot_df_survival) <- c("Estimate", "upper", "lower", "Antimicrobial", "Organism")
 result_file <- file.path(data_dir, "SurvivalAnalysis_DeathOddsRatio_Strains_21Aug2023.csv")
 write_csv(barplot_df_survival, result_file)
+
+
+####Cross Covariance Analysis (Figure 5)####
+library(dplyr)
+library(dtw)
+library(ggplot2)
+
+# Filter AMR data
+amr_tot_filtered_organism <- amr_tot %>%
+  filter(grepl(paste0("^", org_df[3]), ORGANISM_NAME))
+
+# Get the top 10 drug names based on frequency
+names_ab_amr <- names(tail(sort(table(amr_tot_filtered_organism$Drug)), 10))
+
+# Initialize a matrix for correlation results
+correlation_res_drug <- matrix(0, nrow = length(names_ab), ncol = length(names_ab_amr))
+
+# Loop through drug names and weeks
+values <- data.frame()
+for (j in 1:length(names_ab_amr)) {
+  for (k in 1:15) {
+    trend_total_red <- trend_total[trend_total$antimicrobial == names_ab[k], ]
+    amr_tot_filtered <- amr_tot %>%
+      filter(grepl(paste0("^", org_df[3]), ORGANISM_NAME) & grepl(names_ab_amr[j], Drug)) %>%
+      mutate(PHENOTYPE = ifelse(grepl("R", AST_Result_CAT), "R", "S"), 
+             WEEK = year_week(SPECIMEN_DATE_FINAL, "2017-01-01")) %>%
+      arrange(WEEK)
+    
+    amr_tot_filtered <- amr_tot_filtered[which(amr_tot_filtered$WEEK %in% trend_total_red$weeks), ]
+    
+    amr_tot_filtered_sum <- table(amr_tot_filtered$WEEK, amr_tot_filtered$PHENOTYPE)
+    tmp <- apply(amr_tot_filtered_sum, 1, sum)
+    amr_tot_filtered_weekly_sum <- as.data.frame.matrix(table(amr_tot_filtered$WEEK, amr_tot_filtered$PHENOTYPE) / tmp)
+    amr_tot_filtered_weekly_sum$total_tests <- tmp
+    
+    ccf_values <- ccf(amr_tot_filtered_weekly_sum$R, trend_total_red$trend, type = "correlation")
+    ccf_values <- ccf_values$acf[, , 1][20:40]
+    
+    if (length(which(ccf_values > 0.14 | ccf_values < -0.14)) > 1) {
+      values <- rbind(values, cbind(ccf_values, rep(names_ab_amr[j], length(ccf_values)), rep(names_ab[k], length(ccf_values))))
+    }
+  }
+}
+
+values <- data.frame(values)
+values$ccf_values <- as.numeric(as.character(values$ccf_values))
+
+# Create a boxplot
+ggplot(values, aes(x = V2, y = ccf_values, fill = V3)) + 
+  geom_boxplot() +
+  geom_hline(yintercept = 0.14, linetype = "dotted", color = "blue", size = 1.5) +
+  geom_hline(yintercept = -0.14, linetype = "dotted", color = "blue", size = 1.5) +
+  theme_bw() +
+  theme(axis.text.x = element_text(size = 13, angle = 90, hjust = 1),
+        axis.text.y = element_text(size = 13, hjust = 1),
+        axis.title.x = element_text(color = "black", size = 15, face = "bold"),
+        axis.title.y = element_text(color = "black", size = 15, face = "bold"),
+        strip.text.x = element_text(size = 15, color = "black", face = "bold")
+  ) +
+  ylab("ccf") +
+  xlab("Antimicrobial")
+
