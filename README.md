@@ -78,7 +78,7 @@ For any questions or inquiries, please contact the authors.
 
 | Type of Cost Items                       | Cost per Unit/Per Year (SAR) | Total (SAR)   |
 |------------------------------------------|---------------------|---------------|
-| 1. **Requested Funds**                   |                     | 1,600,000     |
+| 1. **PIs and Overhead**                   |                     |  |
 |   - University Overhead (10%)            |                     | 160,000       |
 |   - PI’s Salary                          | 60,000 (per year)  | 240,000       |
 |   - Co-PI’s Salary                       | 50,000 (per year)  | 200,000       |
