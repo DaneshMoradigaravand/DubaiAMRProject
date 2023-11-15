@@ -83,7 +83,6 @@ For any questions or inquiries, please contact the authors.
 |   - University Overhead (10%)            |                     | 160,000       |
 |   - PI’s Salary                          | 60,000 (per year)  | 240,000       |
 |   - Co-PI’s Salary                       | 50,000 (per year)  | 200,000       |
-|   - Allocated Funds                      |                     | 1,000,000     |
 | 2. **Human Resources**                   |                     |               |
 |   - Co-Researcher Consultant             | 96,000 (total)     | 96,000        |
 | 3. **Sample Collection, Sequencing, and Data Storage** |             |               |
