@@ -76,7 +76,7 @@ For any questions or inquiries, please contact the authors.
 
 
 
-| Type of Cost Items                       | Cost per Unit (SAR) | Total (SAR)   |
+| Type of Cost Items                       | Cost per Unit/Per Year (SAR) | Total (SAR)   |
 |------------------------------------------|---------------------|---------------|
 | 1. **Requested Funds**                   |                     | 1,600,000     |
 |   - University Overhead (10%)            |                     | 160,000       |
