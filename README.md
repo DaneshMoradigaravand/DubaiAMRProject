@@ -45,6 +45,30 @@ The Code file contains R codes for predocing the figures for causal impact analy
 ## Citation
 If you use the code or findings from this study, please cite the following research article:
 ```
+
+
+
+| Type of Cost Items                       | Cost per Unit (SAR) | Total (SAR)   |
+|------------------------------------------|---------------------|---------------|
+| 1. **Requested Funds**                   |                     | 1,600,000     |
+|   - University Overhead (10%)            |                     | 160,000       |
+|   - PI’s Salary                          | 60,000 (per year)  | 240,000       |
+|   - Co-PI’s Salary                       | 50,000 (per year)  | 200,000       |
+|   - Allocated Funds                      |                     | 1,000,000     |
+| 2. **Human Resources**                   |                     |               |
+|   - Co-Researcher Consultant             | 96,000 (total)     | 96,000        |
+| 3. **Sample Collection, Sequencing, and Data Storage** |             |               |
+|   - Short-read Sequencing (Illumina)     | 212,600 (per sample) X3000 | 637,800       |
+|   - ONT Sequencing                       | 375 (per sample) X100   | 37,500        |
+|   - Single-particle Analysis (Cryo-EM)   | 200 (per session)  | 20,000        |
+| 4. **Lab Consumables**                   |                     |               |
+|   - Microbiology Lab                      | 96,187 (total)     | 96,187        |
+|   - Structural Biology (3rd and 4th year)| 60,000             | 60,000        |
+|   - Grids for Data Acquisition (Aim 2)   | 7,500              | 7,500         |
+| 5. **Publication Costs**                 | 11,253.12 (per publication) | 45,013 |
+
+
+
 This paper is still under review
 ```
 
